@@ -1,0 +1,37 @@
+shebang
+
+task = $1 # One level up use script and put in task (pre free post clean etc.)
+sub = $2 # put in subject to analyze
+------------Wrapper Script --------------
+
+SubjectList = [sub00:sub200]
+sub = $1
+bash RunStructBatch.sh RENAME sub
+bash RunStructBatch.sh PRE sub
+bash RunStructBatch.sh FREE sub
+bash RunStructBatch.sh POST sub
+
+--------- End Wrapper Script ---------------
+example run_sub_1:
+
+bash RunsStructuralBatch.sh
+run_sub_1 task sub
+
+for x
+  qsub run_sub_1 Task [x] sub [y]
+done
+
+
+---------Extra script to run freesurfer wrapper --------
+
+cat sublist.txt | while read subject # Reads one row per loop iteration (this is super handy!!!!)
+do 
+qsub Wrapperscript.sh $subject 
+done
+
+# Run parts of subjects
+cat | head -n X # first couple of rows
+cat | awk 'NR>=2 && NR <4'
+
+
+check qsub q 
